@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сила Слова — Вебинар 18 апреля</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #1a0d14;
+    --bg-mid: #2d1422;
+    --bg-light: #f5f2f0;
+    --pink: #e8437a;
+    --pink-light: #f07aab;
+    --rose: #c4305a;
+    --cream: #fdf8f5;
+    --text-dark: #1a0d14;
+    --text-light: #f5f2f0;
+    --text-muted: rgba(245,242,240,0.55);
+    --gold: #d4a96a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    font-family: 'Manrope', sans-serif;
+    background: #111;
+    overflow: hidden;
+  }
+
+  .deck {
+    width: 100vw; height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 80px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ─── BACKGROUNDS ─── */
+  .bg-dark   { background: var(--bg-dark); }
+  .bg-mid    { background: var(--bg-mid); }
+  .bg-light  { background: var(--bg-light); }
+  .bg-cream  { background: var(--cream); }
+
+  .bg-gradient-dark {
+    background: linear-gradient(135deg, #1a0d14 0%, #3d1828 60%, #2d1422 100%);
+  }
+  .bg-gradient-rose {
+    background: linear-gradient(135deg, #8b1a3a 0%, #c4305a 50%, #e8437a 100%);
+  }
+  .bg-gradient-split {
+    background: linear-gradient(to right, var(--bg-mid) 55%, var(--bg-light) 55%);
+  }
+
+  /* ─── NOISE TEXTURE ─── */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .slide > * { position: relative; z-index: 1; }
+
+  /* ─── SLIDE NUMBER ─── */
+  .slide-num {
+    position: absolute;
+    bottom: 28px; right: 40px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    z-index: 10;
+  }
+  .slide-num.dark { color: rgba(26,13,20,0.3); }
+
+  /* ─── BLOCK LABEL ─── */
+  .block-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 20px;
+    display: block;
+  }
+  .block-label.dark { color: var(--rose); }
+
+  /* ─── TYPOGRAPHY ─── */
+  .title-xl {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(36px, 5.5vw, 80px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--text-light);
+  }
+  .title-xl.dark { color: var(--text-dark); }
+
+  .title-lg {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(28px, 4vw, 58px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text-light);
+  }
+  .title-lg.dark { color: var(--text-dark); }
+
+  .title-md {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(20px, 2.8vw, 38px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--text-light);
+  }
+  .title-md.dark { color: var(--text-dark); }
+
+  .title-sm {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(14px, 1.8vw, 24px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-light);
+  }
+
+  .accent { color: var(--pink); }
+  .accent-gold { color: var(--gold); }
+
+  .body-text {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(14px, 1.5vw, 20px);
+    line-height: 1.65;
+    color: rgba(245,242,240,0.82);
+    font-weight: 400;
+  }
+  .body-text.dark { color: rgba(26,13,20,0.7); }
+
+  .body-lg {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(16px, 1.8vw, 24px);
+    line-height: 1.6;
+    color: rgba(245,242,240,0.88);
+    font-weight: 500;
+  }
+
+  .body-sm {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(12px, 1.2vw, 16px);
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .strike { text-decoration: line-through; color: var(--text-muted); }
+
+  /* ─── LAYOUT HELPERS ─── */
+  .col { display: flex; flex-direction: column; }
+  .row { display: flex; flex-direction: row; align-items: center; }
+  .gap-4 { gap: 4px; }
+  .gap-8 { gap: 8px; }
+  .gap-12 { gap: 12px; }
+  .gap-16 { gap: 16px; }
+  .gap-24 { gap: 24px; }
+  .gap-32 { gap: 32px; }
+  .gap-40 { gap: 40px; }
+  .gap-48 { gap: 48px; }
+  .w-full { width: 100%; }
+  .w-half { width: 50%; }
+  .w-60 { width: 60%; }
+  .w-40 { width: 40%; }
+  .center { text-align: center; align-items: center; }
+  .left { text-align: left; align-items: flex-start; }
+
+  /* ─── DECORATIVE ─── */
+  .diamond {
+    width: 10px; height: 10px;
+    background: var(--pink);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+  .diamond.small { width: 7px; height: 7px; }
+  .diamond.gold { background: var(--gold); }
+
+  .line-h {
+    width: 60px; height: 2px;
+    background: var(--pink);
+  }
+  .line-h.short { width: 32px; }
+
+  .circle-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid var(--pink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pink);
+    flex-shrink: 0;
+  }
+  .circle-num.dark { border-color: var(--rose); color: var(--rose); }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: 1.5px solid rgba(232,67,122,0.4);
+    border-radius: 100px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pink-light);
+    letter-spacing: 0.05em;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 10px 24px;
+    background: rgba(232,67,122,0.15);
+    border-radius: 100px;
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(12px,1.2vw,15px);
+    font-weight: 600;
+    color: var(--pink-light);
+  }
+  .pill.solid {
+    background: var(--pink);
+    color: #fff;
+  }
+  .pill.outline {
+    background: transparent;
+    border: 1.5px solid var(--pink);
+    color: var(--pink-light);
+  }
+
+  .card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 28px 32px;
+    backdrop-filter: blur(8px);
+  }
+  .card.dark-card {
+    background: rgba(26,13,20,0.06);
+    border-color: rgba(26,13,20,0.12);
+  }
+  .card.pink-card {
+    background: rgba(232,67,122,0.12);
+    border-color: rgba(232,67,122,0.25);
+  }
+
+  .price-big {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 900;
+    color: var(--pink);
+    line-height: 1;
+  }
+
+  .badge-popular {
+    display: inline-block;
+    background: var(--pink);
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .chat-prompt {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    background: rgba(232,67,122,0.2);
+    border: 1px solid rgba(232,67,122,0.35);
+    border-radius: 100px;
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(13px,1.3vw,17px);
+    font-weight: 600;
+    color: var(--pink-light);
+    margin-top: 24px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .check-icon {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--pink);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .check-icon::after {
+    content: '';
+    width: 8px; height: 5px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg) translateY(-1px);
+    display: block;
+  }
+  .check-icon.dark { background: var(--rose); }
+
+  /* ─── COVER SPECIFIC ─── */
+  .cover-bg {
+    background: radial-gradient(ellipse at 30% 50%, #5c1830 0%, #1a0d14 65%);
+  }
+  .cover-line {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 38%;
+    background: linear-gradient(135deg, #3d1828, #1a0d14);
+    clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  .big-number {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(80px, 15vw, 200px);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: var(--pink);
+    opacity: 0.12;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  /* ─── NAV ─── */
+  .nav {
+    position: fixed;
+    bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+    background: rgba(26,13,20,0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 10px 20px;
+  }
+
+  .nav-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(232,67,122,0.5);
+    background: transparent;
+    color: var(--pink);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--pink); color: #fff; border-color: var(--pink); }
+
+  .nav-info {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(245,242,240,0.6);
+    min-width: 60px;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  .progress-bar {
+    width: 80px; height: 2px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--pink);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* ─── TIMED BLOCK NOTE ─── */
+  .note-box {
+    position: absolute;
+    top: 24px; right: 40px;
+    background: rgba(232,67,122,0.15);
+    border: 1px solid rgba(232,67,122,0.3);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    color: var(--pink-light);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    z-index: 10;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide.active .anim-1 { animation: fadeUp 0.5s ease 0.1s both; }
+  .slide.active .anim-2 { animation: fadeUp 0.5s ease 0.2s both; }
+  .slide.active .anim-3 { animation: fadeUp 0.5s ease 0.3s both; }
+  .slide.active .anim-4 { animation: fadeUp 0.5s ease 0.4s both; }
+  .slide.active .anim-5 { animation: fadeUp 0.5s ease 0.5s both; }
+  .slide.active .anim-6 { animation: fadeUp 0.5s ease 0.6s both; }
+
+  /* ─── MODULE CARD ─── */
+  .module-card {
+    border-left: 3px solid var(--pink);
+    padding-left: 20px;
+  }
+
+  /* ─── TARIFF CARD ─── */
+  .tariff {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    transition: border-color 0.2s;
+  }
+  .tariff.featured {
+    background: rgba(232,67,122,0.12);
+    border-color: var(--pink);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 1 — ОТКРЫТИЕ
+════════════════════════════════════════════════ -->
+
+<!-- СЛАЙД 1 — ОБЛОЖКА -->
+<div class="slide cover-bg active" id="s1">
+  <div class="cover-line"></div>
+  <div class="col left gap-24 w-60">
+    <div class="tag anim-1"><div class="diamond small"></div>Прямой эфир · 18 апреля</div>
+    <div class="title-xl anim-2">ВАШ ГОЛОС<br>ЗАСЛУЖИВАЕТ<br>ТОГО, ЧТОБЫ<br><span class="accent">ЕГО УСЛЫШАЛИ</span></div>
+    <div class="body-lg anim-3" style="color:rgba(245,242,240,0.6); font-size:clamp(13px,1.4vw,18px)">Маргарита Воробьёва</div>
+  </div>
+  <div class="slide-num">1 / 90</div>
+</div>
+
+<!-- СЛАЙД 2 — БОНУС -->
+<div class="slide bg-gradient-dark" id="s2">
+  <div class="col center gap-24" style="max-width:700px">
+    <div class="diamond anim-1" style="width:14px;height:14px"></div>
+    <div class="title-lg center anim-2">В КОНЦЕ ВСТРЕЧИ</div>
+    <div class="body-lg center anim-3" style="color:rgba(245,242,240,0.75)">Запись всех упражнений, которые мы сделаем сегодня,<br>получат те, кто будет с нами <span class="accent">до конца</span></div>
+    <div class="line-h anim-4"></div>
+  </div>
+  <div class="slide-num">2 / 90</div>
+</div>
+
+<!-- СЛАЙД 3 — ОРГМОМЕНТЫ -->
+<div class="slide bg-mid" id="s3">
+  <div class="col left gap-32" style="max-width:800px">
+    <span class="block-label anim-1">Пока собираемся</span>
+    <div class="title-md anim-2">НЕСКОЛЬКО МИНУТ,<br>ПОКА МЫ СОБИРАЕМСЯ</div>
+    <div class="col gap-16 anim-3">
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Напишите в чат, откуда вы</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Подготовьте воду — пригодится для упражнений</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Телефон лучше убрать: сегодня работаем голосом, не глазами</div></div>
+    </div>
+  </div>
+  <div class="slide-num">3 / 90</div>
+</div>
+
+<!-- СЛАЙД 4 — ЧТО БУДЕТ СЕГОДНЯ -->
+<div class="slide bg-gradient-dark" id="s4">
+  <div class="col left gap-32" style="max-width:860px; width:100%">
+    <span class="block-label anim-1">Что вас ждёт сегодня</span>
+    <div class="title-md anim-2">ЧТО ВАС ЖДЁТ</div>
+    <div class="col gap-20 anim-3">
+      <div class="row gap-16"><div class="circle-num">1</div><div class="body-lg">Вы <strong>поймёте</strong> — почему проблема не в голосе, и что за ней стоит на самом деле</div></div>
+      <div class="row gap-16"><div class="circle-num">2</div><div class="body-lg">Вы <strong>увидите</strong> — полный путь: из «меня не слышат» в «я говорю и меня слушают»</div></div>
+      <div class="row gap-16"><div class="circle-num">3</div><div class="body-lg">Вы <strong>сделаете</strong> — две практики прямо здесь. Результат почувствуете сразу</div></div>
+      <div class="row gap-16"><div class="circle-num">4</div><div class="body-lg">Вы <strong>узнаете</strong> — как начать этот путь вместе со мной</div></div>
+    </div>
+  </div>
+  <div class="slide-num">4 / 90</div>
+</div>
+
+<!-- СЛАЙД 5 — УЗНАВАНИЕ А -->
+<div class="slide bg-mid" id="s5">
+  <div class="col left gap-28" style="max-width:840px">
+    <span class="block-label anim-1">Вы здесь, потому что…</span>
+    <div class="title-lg anim-2">ВЫ ЗДЕСЬ,<br>ПОТОМУ ЧТО…</div>
+    <div class="col gap-16 anim-3">
+      <div class="card"><div class="body-lg">Вас постоянно <span class="accent">переспрашивают</span> — даже когда вы говорите нормально</div></div>
+      <div class="card"><div class="body-lg">После встреч и выступлений вы чаще <span class="accent">недовольны собой</span>, чем довольны</div></div>
+    </div>
+    <div class="chat-prompt anim-4"><span>💬</span>Напишите в чат «+», если хотя бы один пункт — про вас</div>
+  </div>
+  <div class="slide-num">5 / 90</div>
+</div>
+
+<!-- СЛАЙД 6 — УЗНАВАНИЕ Б -->
+<div class="slide bg-dark" id="s6">
+  <div class="col left gap-28" style="max-width:840px">
+    <span class="block-label anim-1">Вы здесь, потому что…</span>
+    <div class="title-lg anim-2">ВЫ ЗДЕСЬ,<br>ПОТОМУ ЧТО…</div>
+    <div class="col gap-16 anim-3">
+      <div class="card"><div class="body-lg">Голос вас <span class="accent">предаёт</span>: дрожит, зажимается, исчезает именно тогда, когда важно</div></div>
+      <div class="card"><div class="body-lg">Вы устали быть тихой — и знаете, что внутри вас <span class="accent">гораздо больше</span>, чем слышно снаружи</div></div>
+    </div>
+    <div class="chat-prompt anim-4"><span>💬</span>Напишите в чат «+», если хотя бы один пункт — про вас</div>
+  </div>
+  <div class="slide-num">6 / 90</div>
+</div>
+
+<!-- СЛАЙД 7 — УЗНАВАНИЕ В -->
+<div class="slide bg-gradient-dark" id="s7">
+  <div class="col left gap-28" style="max-width:840px">
+    <span class="block-label anim-1">Вы здесь, потому что…</span>
+    <div class="title-lg anim-2">ВЫ ЗДЕСЬ,<br>ПОТОМУ ЧТО…</div>
+    <div class="col gap-16 anim-3">
+      <div class="card"><div class="body-lg">Другие получают больше — внимания, денег, возможностей. Не потому что умнее. Потому что <span class="accent">их слышат</span>.</div></div>
+      <div class="card"><div class="body-lg">Вы знаете, что вам есть что сказать. Но <span class="accent">голос не даёт</span>.</div></div>
+    </div>
+    <div class="body-sm anim-4" style="color:rgba(245,242,240,0.5); margin-top:8px; font-style:italic">Если хотя бы 2 пункта за эти три слайда — вы точно в правильном месте</div>
+  </div>
+  <div class="slide-num">7 / 90</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 2 — РИТА
+════════════════════════════════════════════════ -->
+
+<!-- СЛАЙД 8 — КТО Я -->
+<div class="slide bg-gradient-rose" id="s8">
+  <div class="col center gap-16" style="max-width:700px">
+    <span class="block-label anim-1" style="color:rgba(255,255,255,0.7); align-self:center">Кто ведёт</span>
+    <div class="title-xl center anim-2">МАРГАРИТА<br>ВОРОБЬЁВА</div>
+    <div class="line-h anim-3" style="align-self:center"></div>
+  </div>
+  <div class="slide-num">8 / 90</div>
+</div>
+
+<!-- СЛАЙД 9 — РЕГАЛИИ -->
+<div class="slide bg-mid" id="s9">
+  <div class="col left gap-28" style="max-width:860px; width:100%">
+    <span class="block-label anim-1">О Маргарите</span>
+    <div class="title-md anim-2">ОБО МНЕ</div>
+    <div class="col gap-14 anim-3">
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">9 лет в прямом эфире — Россия 24, АТН, «41-Домашний»</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Тренер по голосу, речи и публичным выступлениям — более 20 000 часов практики</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Основатель «Силы Слова» — более <span class="accent">10 000 учеников</span> из <span class="accent">57 стран</span></div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Блогер с аудиторией <span class="accent">800 000+</span> подписчиков</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Мама двух спортсменов и счастливая женщина</div></div>
+    </div>
+  </div>
+  <div class="slide-num">9 / 90</div>
+</div>
+
+<!-- СЛАЙД 10 — КОМАНДА -->
+<div class="slide bg-dark" id="s10">
+  <div class="col left gap-28" style="max-width:860px; width:100%">
+    <span class="block-label anim-1">С вами работают</span>
+    <div class="title-md anim-2">КОМАНДА ПРОФЕССИОНАЛОВ</div>
+    <div class="col gap-16 anim-3">
+      <div class="card"><div class="col gap-6"><div class="title-sm">Валентина Третьякова</div><div class="body-text">Действующая актриса театра и кино · Тренер по голосу · более 2 000 выпускников</div></div></div>
+      <div class="card"><div class="col gap-6"><div class="title-sm">Нина Ларина</div><div class="body-text">24 года в ораторском искусстве · 15 лет на радио</div></div></div>
+      <div class="card pink-card"><div class="body-text">+ Приглашённые эксперты: <span class="accent">психология, НЛП, коучинг</span><br><span class="body-sm">Потому что речь — это психофизический процесс. Голос без психологии не меняется насовсем.</span></div></div>
+    </div>
+  </div>
+  <div class="slide-num">10 / 90</div>
+</div>
+
+<!-- СЛАЙД 11 — ЛИЧНОЕ -->
+<div class="slide bg-gradient-dark" id="s11">
+  <div class="col left gap-28" style="max-width:800px">
+    <span class="block-label anim-1">Личная история</span>
+    <div class="title-md anim-2">НО ГЛАВНОЕ —<br>Я САМА ЧЕРЕЗ ЭТО ПРОШЛА</div>
+    <div class="col gap-16 anim-3">
+      <div class="card"><div class="body-lg" style="font-style:italic">«С такой речью в телеке нельзя»</div><div class="body-sm" style="margin-top:8px">— именно это мне сказали</div></div>
+      <div class="body-text">Я занималась полтора года до первой похвалы.</div>
+      <div class="body-text">Сегодня я знаю: голос — не данность. Это навык. <span class="accent">И он меняется.</span></div>
+    </div>
+  </div>
+  <div class="slide-num">11 / 90</div>
+</div>
+
+<!-- СЛАЙД 12 — МОСТИК -->
+<div class="slide bg-gradient-rose" id="s12">
+  <div class="col center gap-24" style="max-width:720px">
+    <div class="diamond anim-1" style="width:14px;height:14px"></div>
+    <div class="title-lg center anim-2">И Я ХОЧУ,<br>ЧТОБЫ ВЫ ЭТО<br>ТОЖЕ ПОЧУВСТВОВАЛИ</div>
+    <div class="note-box">Рита говорит вживую — зачем она здесь</div>
+  </div>
+  <div class="slide-num">12 / 90</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 3 — ДИАГНОСТИКА ПРОБЛЕМЫ
+════════════════════════════════════════════════ -->
+
+<!-- СЛАЙД 13 -->
+<div class="slide bg-mid" id="s13">
+  <div class="col center gap-28" style="max-width:720px">
+    <span class="block-label center anim-1">Начнём с главного</span>
+    <div class="title-lg center anim-2">ЧТО ВЫ ТЕРЯЕТЕ<br>ИЗ-ЗА ТОГО,<br>ЧТО ВАС <span class="accent">НЕ СЛЫШАТ?</span></div>
+    <div class="chat-prompt anim-3"><span>💬</span>Напишите в чат</div>
+  </div>
+  <div class="slide-num">13 / 90</div>
+</div>
+
+<!-- СЛАЙД 14 — ЦЕНА МОЛЧАНИЯ -->
+<div class="slide bg-dark" id="s14">
+  <div class="col left gap-28" style="max-width:860px; width:100%">
+    <span class="block-label anim-1">Цена молчания</span>
+    <div class="title-md anim-2">ЦЕНА МОЛЧАНИЯ</div>
+    <div class="col gap-12 anim-3">
+      <div class="check-item"><div class="check-icon"></div><div class="body-text"><strong>Деньги:</strong> не просите повышение, не продаёте услуги, не договариваетесь о цене</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text"><strong>Отношения:</strong> вас не воспринимают всерьёз, с вашим мнением не считаются</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text"><strong>Время:</strong> застреваете на одном месте годами</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text"><strong>Себя:</strong> живёте как будто извиняясь. <span class="accent">В вашей жизни мало вас.</span></div></div>
+    </div>
+  </div>
+  <div class="slide-num">14 / 90</div>
+</div>
+
+<!-- СЛАЙД 15 — УЖЕ ПРОБОВАЛИ -->
+<div class="slide bg-gradient-dark" id="s15">
+  <div class="col left gap-28" style="max-width:800px">
+    <span class="block-label anim-1">Прошлый опыт</span>
+    <div class="title-md anim-2">И ВЫ УЖЕ<br>ПРОБОВАЛИ ЧТО-ТО ДЕЛАТЬ</div>
+    <div class="col gap-16 anim-3">
+      <div class="body-lg">Ораторские курсы. Упражнения. Книги. YouTube.</div>
+      <div class="card"><div class="body-lg">Помогало — до первого стресса.<br>Потом <span class="accent">всё возвращалось</span>.</div></div>
+      <div class="body-text" style="font-style:italic">Знакомо?</div>
+    </div>
+  </div>
+  <div class="slide-num">15 / 90</div>
+</div>
+
+<!-- СЛАЙД 16 — ПОЧЕМУ НЕ РАБОТАЕТ -->
+<div class="slide bg-mid" id="s16">
+  <div class="col left gap-28" style="max-width:800px">
+    <span class="block-label anim-1">Причина</span>
+    <div class="title-md anim-2">ПОЧЕМУ ЭТО<br>НЕ РАБОТАЛО</div>
+    <div class="col gap-16 anim-3">
+      <div class="body-lg">Обычные курсы начинают с техники.</div>
+      <div class="row gap-12 anim-4" style="flex-wrap:wrap; gap:10px">
+        <div class="pill">Дыхание</div>
+        <div class="pill">Дикция</div>
+        <div class="pill">Жесты</div>
+        <div class="pill">Структура речи</div>
+      </div>
+      <div class="body-lg">Это работает <span class="accent">снаружи — внутрь</span>.</div>
+      <div class="card pink-card"><div class="body-lg">Результат поверхностный и <span class="accent">временный</span>.</div></div>
+    </div>
+  </div>
+  <div class="slide-num">16 / 90</div>
+</div>
+
+<!-- СЛАЙД 17 — ИНСАЙТ -->
+<div class="slide bg-dark" id="s17">
+  <div class="col center gap-28" style="max-width:760px">
+    <div class="title-xl center anim-1">НО ДЕЛО<br><span class="accent">НЕ В ГОЛОСЕ</span></div>
+    <div class="col gap-16 anim-2">
+      <div class="body-lg center">Тело реагирует раньше, чем голова.</div>
+      <div class="body-lg center">Голос зажимается — потому что внутри стоит команда: <span class="accent">«не высовывайся»</span>.</div>
+      <div class="body-lg center">Пока эта команда работает — никакие упражнения не дадут устойчивый результат.</div>
+    </div>
+  </div>
+  <div class="slide-num">17 / 90</div>
+</div>
+
+<!-- СЛАЙД 18 — МЕТОДОЛОГИЯ -->
+<div class="slide bg-gradient-rose" id="s18">
+  <div class="col left gap-28" style="max-width:860px; width:100%">
+    <span class="block-label anim-1" style="color:rgba(255,255,255,0.7)">Подход Риты</span>
+    <div class="title-md anim-2">МОЙ ПОДХОД:<br>ИЗНУТРИ → НАРУЖУ</div>
+    <div class="col gap-16 anim-3">
+      <div class="row gap-20" style="align-items:flex-start">
+        <div class="col gap-8" style="flex:1">
+          <div class="pill solid">1. Убираем блокеры</div>
+          <div class="body-text" style="color:rgba(255,255,255,0.8)">Установки, страхи, синдром самозванца</div>
+        </div>
+        <div class="col gap-8" style="flex:1">
+          <div class="pill solid">2. Даём инструменты</div>
+          <div class="body-text" style="color:rgba(255,255,255,0.8)">Голос, речь, структура</div>
+        </div>
+        <div class="col gap-8" style="flex:1">
+          <div class="pill solid">3. Применяем</div>
+          <div class="body-text" style="color:rgba(255,255,255,0.8)">Выступления, камера, переговоры</div>
+        </div>
+      </div>
+      <div class="card" style="background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.25)">
+        <div class="body-lg" style="color:#fff">Результат остаётся — потому что мы работаем с <strong>корнем</strong></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">18 / 90</div>
+</div>
+
+<!-- СЛАЙД 19 — ОТКУДА ЗАЖИМ -->
+<div class="slide bg-mid" id="s19">
+  <div class="col left gap-28" style="max-width:800px">
+    <span class="block-label anim-1">Откуда это берётся</span>
+    <div class="title-md anim-2">ОТКУДА ЭТО БЕРЁТСЯ</div>
+    <div class="col gap-12 anim-3">
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Страх оценки, осуждения, «скажу не то»</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Низкая самооценка. Синдром самозванца.</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Детские установки: «не высовывайся», «помолчи», «кто ты такая»</div></div>
+    </div>
+    <div class="card pink-card anim-4">
+      <div class="body-lg">Это не ваш характер. Это <span class="accent">команды, которые вам поставили</span>.<br>И их можно переписать.</div>
+    </div>
+  </div>
+  <div class="slide-num">19 / 90</div>
+</div>
+
+<!-- СЛАЙД 20 — ТЕЛО -->
+<div class="slide bg-dark" id="s20">
+  <div class="col left gap-28" style="max-width:840px; width:100%">
+    <span class="block-label anim-1">Как зажим проявляется</span>
+    <div class="title-sm anim-2" style="color:var(--text-muted); text-transform:uppercase; letter-spacing:.15em; font-size:12px; font-family:'Manrope'">В ТЕЛЕ</div>
+    <div class="row gap-16 anim-3" style="flex-wrap:wrap">
+      <div class="pill">Краснею / потею</div>
+      <div class="pill">Сердце колотится</div>
+      <div class="pill">Сутулость</div>
+      <div class="pill">Закрытые позы</div>
+      <div class="pill">Не могу смотреть в глаза</div>
+    </div>
+    <div class="title-sm anim-4" style="color:var(--text-muted); text-transform:uppercase; letter-spacing:.15em; font-size:12px; font-family:'Manrope'; margin-top:16px">В ГОЛОСЕ</div>
+    <div class="row gap-16 anim-5" style="flex-wrap:wrap">
+      <div class="pill">Тонкий</div>
+      <div class="pill">Дрожащий</div>
+      <div class="pill">Тихий</div>
+      <div class="pill">Высокий</div>
+      <div class="pill">Зажатый</div>
+    </div>
+    <div class="title-sm anim-5" style="color:var(--text-muted); text-transform:uppercase; letter-spacing:.15em; font-size:12px; font-family:'Manrope'; margin-top:16px">В РЕЧИ</div>
+    <div class="row gap-16 anim-6" style="flex-wrap:wrap">
+      <div class="pill">Тараторю</div>
+      <div class="pill">Теряю нить</div>
+      <div class="pill">Слова исчезают</div>
+      <div class="pill">Каждая фраза — как вопрос</div>
+    </div>
+  </div>
+  <div class="slide-num">20 / 90</div>
+</div>
+
+<!-- СЛАЙД 21 — УЗНАЛИ СЕБЯ -->
+<div class="slide bg-gradient-dark" id="s21">
+  <div class="col center gap-24" style="max-width:680px">
+    <div class="title-lg center anim-1">КТО<br>УЗНАЛ СЕБЯ?</div>
+    <div class="chat-prompt anim-2"><span>💬</span>Напишите в чат, что из этого ваше</div>
+    <div class="note-box">Рита: читает ответы вслух, говорит «я знаю это чувство»</div>
+  </div>
+  <div class="slide-num">21 / 90</div>
+</div>
+
+<!-- СЛАЙД 22 — ХОРОШАЯ НОВОСТЬ -->
+<div class="slide bg-mid" id="s22">
+  <div class="col left gap-28" style="max-width:800px">
+    <span class="block-label anim-1">Хорошая новость</span>
+    <div class="title-lg anim-2">ХОРОШАЯ<br>НОВОСТЬ</div>
+    <div class="col gap-16 anim-3">
+      <div class="body-lg">Уверенная речь — это <span class="accent">НЕ врождённое</span> качество.</div>
+      <div class="card pink-card">
+        <div class="title-sm">Это навык. Как мышца.</div>
+        <div class="body-text" style="margin-top:8px">Тренируется через тело, дыхание и голос.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">22 / 90</div>
+</div>
+
+<!-- СЛАЙД 23 — ЕЩЁ ЛУЧШЕ -->
+<div class="slide bg-dark" id="s23">
+  <div class="col center gap-28" style="max-width:760px">
+    <div class="title-lg center anim-1">И ЕЩЁ<br>ЛУЧШЕ</div>
+    <div class="card anim-2" style="text-align:center; padding:32px 40px">
+      <div class="body-lg center">Невозможно чувствовать себя неуверенно<br>с раскрытой грудью, глубоким дыханием<br>и <span class="accent">звучащим голосом</span>.</div>
+    </div>
+    <div class="body-lg center anim-3"><span class="accent">Физиология создаёт психологию.</span><br>Можно начать с тела — прямо сейчас.</div>
+  </div>
+  <div class="slide-num">23 / 90</div>
+</div>
+
+<!-- СЛАЙД 24 — МОСТИК К ПРАКТИКЕ -->
+<div class="slide bg-gradient-rose" id="s24">
+  <div class="col center gap-24" style="max-width:700px">
+    <div class="title-xl center anim-1">ГОТОВЫ<br>ПРОВЕРИТЬ?</div>
+    <div class="body-lg center anim-2" style="color:rgba(255,255,255,0.85)">Сейчас сделаем первую практику.<br>Займёт 5–7 минут.</div>
+    <div class="line-h anim-3" style="align-self:center"></div>
+  </div>
+  <div class="slide-num">24 / 90</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 4 — ПРАКТИКА 1
+════════════════════════════════════════════════ -->
+
+<!-- СЛАЙД 25 — АНОНС ПРАКТИКИ 1 -->
+<div class="slide bg-dark" id="s25">
+  <div class="col center gap-24" style="max-width:700px">
+    <div class="tag anim-1" style="align-self:center"><div class="diamond small"></div>Практика №1</div>
+    <div class="title-lg center anim-2">СНИМАЕМ ЗАЖИМ<br>С ТЕЛА И ГОЛОСА</div>
+    <div class="body-lg center anim-3" style="color:rgba(245,242,240,0.7)">Нужна только вы и немного пространства</div>
+  </div>
+  <div class="slide-num">25 / 90</div>
+</div>
+
+<!-- СЛАЙД 26 — ТЕЛО -->
+<div class="slide bg-mid" id="s26">
+  <div class="col left gap-24" style="max-width:800px">
+    <div class="row gap-16 anim-1"><div class="circle-num">1</div><div class="title-md">ТЕЛО</div></div>
+    <div class="col gap-12 anim-2">
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Встаньте. Ноги на ширине плеч.</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Плечи назад и вниз — <span class="accent">не вверх</span>.</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Грудь открыта.</div></div>
+    </div>
+    <div class="card pink-card anim-3">
+      <div class="body-lg">Почувствуйте: так стоит человек, <span class="accent">которого слышат</span>.</div>
+    </div>
+  </div>
+  <div class="slide-num">26 / 90</div>
+</div>
+
+<!-- СЛАЙД 27 — ДЫХАНИЕ -->
+<div class="slide bg-dark" id="s27">
+  <div class="col left gap-24" style="max-width:800px">
+    <div class="row gap-16 anim-1"><div class="circle-num">2</div><div class="title-md">ДЫХАНИЕ</div></div>
+    <div class="col gap-12 anim-2">
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Рука на живот.</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Вдох носом — <span class="accent">живот выходит вперёд</span> (не грудь).</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Выдох ртом — медленно, на звук «ффф».</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Три раза.</div></div>
+    </div>
+    <div class="card anim-3">
+      <div class="body-sm">90% людей дышат грудью. Это блокирует голос.</div>
+    </div>
+  </div>
+  <div class="slide-num">27 / 90</div>
+</div>
+
+<!-- СЛАЙД 28 — ГОЛОС -->
+<div class="slide bg-gradient-dark" id="s28">
+  <div class="col left gap-24" style="max-width:800px">
+    <div class="row gap-16 anim-1"><div class="circle-num">3</div><div class="title-md">ГОЛОС</div></div>
+    <div class="col gap-12 anim-2">
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Глубокий вдох.</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">На выдохе — произнесите «ммм», как будто пробуете вкусную еду.</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Чувствуете вибрацию в груди?</div></div>
+    </div>
+    <div class="card pink-card anim-3">
+      <div class="body-lg"><span class="accent">Это ваш настоящий голос. Он уже есть.</span></div>
+    </div>
+  </div>
+  <div class="slide-num">28 / 90</div>
+</div>
+
+<!-- СЛАЙД 29 — ИТОГ ПРАКТИКИ 1 -->
+<div class="slide bg-mid" id="s29">
+  <div class="col left gap-24" style="max-width:840px">
+    <div class="title-md anim-1">ВЫ ТОЛЬКО ЧТО СДЕЛАЛИ ТО,<br>С ЧЕГО НАЧИНАЕТСЯ<br><span class="accent">КАЖДЫЙ ДЕНЬ</span> В «СИЛЕ СЛОВА»</div>
+    <div class="chat-prompt anim-2"><span>💬</span>Напишите в чат: что почувствовали?</div>
+    <div class="note-box">Рита: читает ответы — «Вот именно — голос уже другой. И мы ещё ничего не "учили"»</div>
+  </div>
+  <div class="slide-num">29 / 90</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 5 — КАРТА ТРАНСФОРМАЦИИ
+════════════════════════════════════════════════ -->
+
+<!-- СЛАЙД 30 — АНОНС КУРСА -->
+<div class="slide bg-gradient-dark" id="s30">
+  <div class="col left gap-24" style="max-width:800px">
+    <span class="block-label anim-1">Система</span>
+    <div class="title-lg anim-2">Я СОЗДАЛА<br>СИСТЕМУ</div>
+    <div class="body-lg anim-3">За 10 лет работы с голосом и речью.<br>На основе телевизионной практики, тренерского опыта и — <span class="accent">своего собственного пути</span>.</div>
+    <div class="title-md anim-4"><span class="accent">«СИЛА СЛОВА»</span></div>
+  </div>
+  <div class="slide-num">30 / 90</div>
+</div>
+
+<!-- СЛАЙД 31 — СТРУКТУРА -->
+<div class="slide bg-dark" id="s31">
+  <div class="col left gap-24" style="max-width:860px; width:100%">
+    <span class="block-label anim-1">Как устроено обучение</span>
+    <div class="title-md anim-2">КАК УСТРОЕНО<br>ОБУЧЕНИЕ</div>
+    <div class="row gap-16 anim-3" style="flex-wrap:wrap">
+      <div class="card" style="flex:1; min-width:180px"><div class="col gap-8"><div class="title-sm" style="color:var(--pink)">6 недель</div><div class="body-sm">8 модулей · уроки до 20 мин · в своём темпе</div></div></div>
+      <div class="card" style="flex:1; min-width:180px"><div class="col gap-8"><div class="title-sm" style="color:var(--pink)">Живые Zoom</div><div class="body-sm">Встречи с Ритой и командой</div></div></div>
+      <div class="card" style="flex:1; min-width:180px"><div class="col gap-8"><div class="title-sm" style="color:var(--pink)">Обратная связь</div><div class="body-sm">Проверка ДЗ голосом. Трекер упражнений.</div></div></div>
+    </div>
+    <div class="body-sm anim-4" style="color:rgba(245,242,240,0.45)">Программа одобрена Министерством образования РФ · Лицензия № Л035-01277-66/00668957</div>
+  </div>
+  <div class="slide-num">31 / 90</div>
+</div>
+
+<!-- СЛАЙД 32 — МОДУЛЬ 0 -->
+<div class="slide bg-mid" id="s32">
+  <div class="col left gap-20" style="max-width:820px; width:100%">
+    <div class="row gap-12 anim-1"><div class="pill solid">Модуль 0</div><div class="body-sm" style="color:var(--pink-light)">Открывается сразу после оплаты</div></div>
+    <div class="title-md anim-2">КАК ПОЛУЧИТЬ<br>МАКСИМУМ С ПЕРВОГО ДНЯ</div>
+    <div class="col gap-10 anim-3">
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Как настроить себя на результат</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Ежедневные упражнения для голоса, дыхания, дикции</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Живой Zoom с Маргаритой — для всех тарифов</div></div>
+    </div>
+    <div class="card pink-card anim-4"><div class="body-sm">Пока другие «ждут понедельника» — вы уже начали</div></div>
+  </div>
+  <div class="slide-num">32 / 90</div>
+</div>
+
+<!-- СЛАЙД 33 — МОДУЛЬ 1 -->
+<div class="slide bg-dark" id="s33">
+  <div class="col left gap-20" style="max-width:820px; width:100%">
+    <div class="pill solid anim-1">Модуль 1</div>
+    <div class="title-md anim-2">КАК ОБРЕСТИ УВЕРЕННОСТЬ<br>И НАЧАТЬ ПРОЯВЛЯТЬСЯ</div>
+    <div class="col gap-10 anim-3">
+      <div class="module-card"><div class="body-text">Что такое уверенность и как её получить</div></div>
+      <div class="module-card"><div class="body-text">Синдром самозванца — как распознать и снизить влияние</div></div>
+      <div class="module-card"><div class="body-text">Самоценность и самооценка: в чём разница и как поднять</div></div>
+      <div class="module-card"><div class="body-text">Страх говорить и проявляться — техники проработки</div></div>
+      <div class="module-card"><div class="body-text">Раскрытие уникальности вашей личности</div></div>
+    </div>
+  </div>
+  <div class="slide-num">33 / 90</div>
+</div>
+
+<!-- СЛАЙД 34 — МОДУЛЬ 2 -->
+<div class="slide bg-gradient-dark" id="s34">
+  <div class="col left gap-20" style="max-width:820px; width:100%">
+    <div class="pill solid anim-1">Модуль 2</div>
+    <div class="title-md anim-2">САМОПРЕЗЕНТАЦИЯ,<br>КОТОРАЯ ОСТАВИТ ВПЕЧАТЛЕНИЕ</div>
+    <div class="col gap-10 anim-3">
+      <div class="module-card"><div class="body-text">Целеполагание: цель, которая мотивирует</div></div>
+      <div class="module-card"><div class="body-text">Виды самопрезентации</div></div>
+      <div class="module-card"><div class="body-text">3 техники, которые «продают» вас — без натяжки и наигранности</div></div>
+      <div class="module-card"><div class="body-text">Топ-5 ошибок, которые портят первое впечатление</div></div>
+    </div>
+  </div>
+  <div class="slide-num">34 / 90</div>
+</div>
+
+<!-- СЛАЙД 35 — МОДУЛЬ 3 -->
+<div class="slide bg-mid" id="s35">
+  <div class="col left gap-20" style="max-width:820px; width:100%">
+    <div class="pill solid anim-1">Модуль 3</div>
+    <div class="title-md anim-2">КАК СДЕЛАТЬ РЕЧЬ<br>СТРУКТУРНОЙ И КРАСИВОЙ</div>
+    <div class="col gap-10 anim-3">
+      <div class="module-card"><div class="body-text">12 техник для развития словарного запаса</div></div>
+      <div class="module-card"><div class="body-text">Три способа очистить речь от слов-паразитов</div></div>
+      <div class="module-card"><div class="body-text">Логика и структура: говорить, не теряя нить</div></div>
+      <div class="module-card"><div class="body-text">Как отвечать на неудобные вопросы</div></div>
+      <div class="module-card"><div class="body-text">Речевая самооборона</div></div>
+    </div>
+  </div>
+  <div class="slide-num">35 / 90</div>
+</div>
+
+<!-- СЛАЙД 36 — МОДУЛЬ 4 -->
+<div class="slide bg-dark" id="s36">
+  <div class="col left gap-20" style="max-width:820px; width:100%">
+    <div class="pill solid anim-1">Модуль 4</div>
+    <div class="title-md anim-2">КАК НАПОЛНИТЬ РЕЧЬ<br>ЭНЕРГИЕЙ И ХАРИЗМОЙ</div>
+    <div class="col gap-10 anim-3">
+      <div class="module-card"><div class="body-text">Эмоции и харизма — как они связаны</div></div>
+      <div class="module-card"><div class="body-text">Инструменты интонационной выразительности</div></div>
+      <div class="module-card"><div class="body-text">Скорость речи: как она влияет на восприятие</div></div>
+      <div class="module-card"><div class="body-text">Невербалика: мимика, жесты, поза, походка, зрительный контакт</div></div>
+    </div>
+  </div>
+  <div class="slide-num">36 / 90</div>
+</div>
+
+<!-- СЛАЙД 37 — МОДУЛЬ 5 -->
+<div class="slide bg-gradient-dark" id="s37">
+  <div class="col left gap-20" style="max-width:820px; width:100%">
+    <div class="pill solid anim-1">Модуль 5</div>
+    <div class="title-md anim-2">ФОРМУЛА УСПЕШНОЙ РЕЧИ<br>ДЛЯ ЖИЗНИ И ВЫСТУПЛЕНИЙ</div>
+    <div class="col gap-10 anim-3">
+      <div class="module-card"><div class="body-text">Структура любого выступления — от тоста до питча</div></div>
+      <div class="module-card"><div class="body-text">Три способа начать ярко</div></div>
+      <div class="module-card"><div class="body-text">Сторителлинг: как сделать речь убедительной</div></div>
+      <div class="module-card"><div class="body-text">Речевая импровизация</div></div>
+      <div class="module-card"><div class="body-text">Как выжить на выступлении, когда что-то пошло не так</div></div>
+    </div>
+  </div>
+  <div class="slide-num">37 / 90</div>
+</div>
+
+<!-- СЛАЙД 38 — МОДУЛЬ 6 -->
+<div class="slide bg-mid" id="s38">
+  <div class="col left gap-20" style="max-width:820px; width:100%">
+    <div class="pill solid anim-1">Модуль 6</div>
+    <div class="title-md anim-2">РАБОТА С АУДИТОРИЕЙ<br>ОНЛАЙН</div>
+    <div class="col gap-10 anim-3">
+      <div class="module-card"><div class="body-text">Как быть искренней на камере и реагировать на хейт</div></div>
+      <div class="module-card"><div class="body-text">Боли клиентов и продажи без страха</div></div>
+      <div class="module-card"><div class="body-text">Продающий вебинар: подготовка и структура</div></div>
+      <div class="module-card"><div class="body-text">Сторис, рилсы — технические фишки и продакшн дома</div></div>
+    </div>
+  </div>
+  <div class="slide-num">38 / 90</div>
+</div>
+
+<!-- СЛАЙД 39 — ЭТО СИСТЕМА -->
+<div class="slide bg-gradient-rose" id="s39">
+  <div class="col center gap-24" style="max-width:720px">
+    <div class="title-lg center anim-1">ВСЁ ЭТО —<br>ОДНА СИСТЕМА</div>
+    <div class="body-lg center anim-2" style="color:rgba(255,255,255,0.85)">Не набор уроков.<br>А путь: от корня — к инструментам — к результату.<br>Каждый модуль стоит на предыдущем.</div>
+  </div>
+  <div class="slide-num">39 / 90</div>
+</div>
+
+<!-- СЛАЙД 40 — АНОНС КЕЙСОВ -->
+<div class="slide bg-dark" id="s40">
+  <div class="col center gap-28" style="max-width:700px">
+    <div class="title-lg center anim-1">И ЭТО<br><span class="accent">РАБОТАЕТ</span></div>
+    <div class="body-lg center anim-2" style="color:rgba(245,242,240,0.7)">Сейчас покажу вам двух человек.<br>До — и после.</div>
+    <div class="note-box">Рита: «Это не постановка. Это реальные записи»</div>
+  </div>
+  <div class="slide-num">40 / 90</div>
+</div>
+
+<!-- СЛАЙДЫ 41–46 — КЕЙСЫ (заглушки под видео) -->
+<div class="slide bg-mid" id="s41">
+  <div class="col center gap-24" style="max-width:860px; width:100%">
+    <span class="block-label center anim-1">Кейс 1 · Кирилл</span>
+    <div class="title-md center anim-2">КИРИЛЛ — ДО ОБУЧЕНИЯ</div>
+    <div class="card anim-3" style="width:100%; aspect-ratio:16/6; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.04); border-style:dashed">
+      <div class="body-text" style="color:var(--text-muted); text-align:center">▶ Видео: Кирилл до обучения</div>
+    </div>
+  </div>
+  <div class="slide-num">41 / 90</div>
+</div>
+
+<div class="slide bg-mid" id="s42">
+  <div class="col center gap-24" style="max-width:860px; width:100%">
+    <span class="block-label center anim-1">Кейс 1 · Кирилл</span>
+    <div class="title-md center anim-2">КИРИЛЛ — ПОСЛЕ ОБУЧЕНИЯ</div>
+    <div class="card anim-3" style="width:100%; aspect-ratio:16/6; display:flex; align-items:center; justify-content:center; background:rgba(232,67,122,0.06); border-style:dashed; border-color:rgba(232,67,122,0.3)">
+      <div class="body-text" style="color:var(--pink-light); text-align:center">▶ Видео: Кирилл после обучения</div>
+    </div>
+  </div>
+  <div class="slide-num">42 / 90</div>
+</div>
+
+<div class="slide bg-dark" id="s43">
+  <div class="col left gap-24" style="max-width:800px">
+    <span class="block-label anim-1">Что изменилось</span>
+    <div class="title-md anim-2">ЧТО ИЗМЕНИЛОСЬ</div>
+    <div class="col gap-14 anim-3">
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Не только голос. Осанка. Темп. Уверенность в глазах.</div></div>
+      <div class="body-text">Это происходит, когда работаешь не с техникой — а с тем, что стоит за ней.</div>
+    </div>
+  </div>
+  <div class="slide-num">43 / 90</div>
+</div>
+
+<div class="slide bg-gradient-dark" id="s44">
+  <div class="col center gap-24" style="max-width:860px; width:100%">
+    <span class="block-label center anim-1">Кейс 2 · Евгения</span>
+    <div class="title-md center anim-2">ЕВГЕНИЯ — ДО ОБУЧЕНИЯ</div>
+    <div class="card anim-3" style="width:100%; aspect-ratio:16/6; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.04); border-style:dashed">
+      <div class="body-text" style="color:var(--text-muted); text-align:center">▶ Видео: Евгения до обучения</div>
+    </div>
+  </div>
+  <div class="slide-num">44 / 90</div>
+</div>
+
+<div class="slide bg-gradient-dark" id="s45">
+  <div class="col center gap-24" style="max-width:860px; width:100%">
+    <span class="block-label center anim-1">Кейс 2 · Евгения</span>
+    <div class="title-md center anim-2">ЕВГЕНИЯ — ПОСЛЕ ОБУЧЕНИЯ</div>
+    <div class="card anim-3" style="width:100%; aspect-ratio:16/6; display:flex; align-items:center; justify-content:center; background:rgba(232,67,122,0.06); border-style:dashed; border-color:rgba(232,67,122,0.3)">
+      <div class="body-text" style="color:var(--pink-light); text-align:center">▶ Видео: Евгения после обучения</div>
+    </div>
+  </div>
+  <div class="slide-num">45 / 90</div>
+</div>
+
+<div class="slide bg-mid" id="s46">
+  <div class="col left gap-24" style="max-width:800px">
+    <span class="block-label anim-1">Что изменилось</span>
+    <div class="title-md anim-2">ЧТО ИЗМЕНИЛОСЬ</div>
+    <div class="col gap-14 anim-3">
+      <div class="card" style="border-left:3px solid var(--pink); padding-left:20px; background:transparent; border-top:none; border-right:none; border-bottom:none; border-radius:0">
+        <div class="body-lg" style="font-style:italic">«Боялась всего: вести инстаграм, записывать видео, не делилась тем, что знаю»</div>
+      </div>
+      <div class="body-text">После обучения: ведёт экспертный контент, прогревает аудиторию, <span class="accent">приходят клиенты</span>.</div>
+    </div>
+  </div>
+  <div class="slide-num">46 / 90</div>
+</div>
+
+<!-- СЛАЙД 47 — ИТОГ -->
+<div class="slide bg-gradient-rose" id="s47">
+  <div class="col center gap-20" style="max-width:700px">
+    <div class="title-lg center anim-1">10 000 УЧЕНИКОВ<br>ИЗ 57 СТРАН</div>
+    <div class="body-lg center anim-2" style="color:rgba(255,255,255,0.85)">Разные истории. Одна закономерность:</div>
+    <div class="card anim-3" style="background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.25); text-align:center">
+      <div class="body-lg" style="color:#fff">Когда работаешь с корнем — <strong>результат остаётся</strong>.</div>
+    </div>
+  </div>
+  <div class="slide-num">47 / 90</div>
+</div>
+
+<!-- СЛАЙД 48 — ВОПРОС -->
+<div class="slide bg-dark" id="s48">
+  <div class="col center gap-28" style="max-width:700px">
+    <div class="title-lg center anim-1">А ЧТО ИЗМЕНИТСЯ<br>В ВАШЕЙ ЖИЗНИ?</div>
+    <div class="chat-prompt anim-2"><span>💬</span>Напишите в чат одно слово</div>
+    <div class="note-box">Рита читает ответы и комментирует</div>
+  </div>
+  <div class="slide-num">48 / 90</div>
+</div>
+
+<!-- СЛАЙД 49 — ПЕРЕХОД К ОФФЕРУ -->
+<div class="slide bg-gradient-dark" id="s49">
+  <div class="col center gap-20" style="max-width:720px">
+    <div class="title-md center anim-1" style="color:rgba(245,242,240,0.5)">ТЕПЕРЬ РАССКАЖУ,</div>
+    <div class="title-lg center anim-2">КАК ПОЙТИ<br>ЭТОТ ПУТЬ<br><span class="accent">ВМЕСТЕ СО МНОЙ</span></div>
+  </div>
+  <div class="slide-num">49 / 90</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 6 — ОФФЕР «СИЛА СЛОВА»
+════════════════════════════════════════════════ -->
+
+<!-- СЛАЙД 50 — ТРИ ПУТИ -->
+<div class="slide bg-mid" id="s50">
+  <div class="col left gap-28" style="max-width:860px; width:100%">
+    <span class="block-label anim-1">Три варианта</span>
+    <div class="title-md anim-2">СЕЙЧАС У ВАС<br>ТРИ ПУТИ</div>
+    <div class="row gap-16 anim-3" style="width:100%">
+      <div class="card" style="flex:1; opacity:0.5"><div class="body-lg">Оставить всё как есть</div></div>
+      <div class="card" style="flex:1; opacity:0.6"><div class="body-lg">Пойти в одиночку</div></div>
+      <div class="card pink-card" style="flex:1"><div class="body-lg"><span class="accent">Пройти путь в системе — вместе со мной</span></div></div>
+    </div>
+  </div>
+  <div class="slide-num">50 / 90</div>
+</div>
+
+<!-- СЛАЙД 51 — ЧТО ТАКОЕ КУРС -->
+<div class="slide bg-dark" id="s51">
+  <div class="col center gap-24" style="max-width:760px">
+    <div class="tag anim-1" style="align-self:center"><div class="diamond small"></div>Флагманский курс</div>
+    <div class="title-xl center anim-2">«СИЛА<br>СЛОВА»</div>
+    <div class="body-lg center anim-3" style="color:rgba(245,242,240,0.7)">6 недель · 8 модулей · команда профессионалов<br>Путь от зажима — к голосу, которым вас слышат</div>
+    <div class="card pink-card anim-4" style="text-align:center">
+      <div class="body-text">Специальные условия в честь 35-летия Риты — <span class="accent">только до 25 апреля</span></div>
+    </div>
+  </div>
+  <div class="slide-num">51 / 90</div>
+</div>
+
+<!-- СЛАЙД 52 — ТАРИФЫ -->
+<div class="slide bg-gradient-dark" id="s52">
+  <div class="col left gap-24" style="max-width:1000px; width:100%">
+    <span class="block-label anim-1">Выберите свой формат</span>
+    <div class="row gap-16 anim-2" style="width:100%; align-items:stretch">
+
+      <div class="tariff">
+        <div class="title-sm" style="color:rgba(245,242,240,0.7)">ЛАЙТ</div>
+        <div class="col gap-4">
+          <div class="body-sm strike">45 000 ₽</div>
+          <div class="price-big">19 900 ₽</div>
+        </div>
+        <div class="col gap-8">
+          <div class="body-sm">✓ Все 8 модулей + предобучение</div>
+          <div class="body-sm">✓ Доступ к платформе 3 месяца</div>
+          <div class="body-sm">✓ Учебный чат</div>
+        </div>
+      </div>
+
+      <div class="tariff featured">
+        <div class="row gap-10"><div class="title-sm">ПРЕМИУМ</div><div class="badge-popular">Популярный</div></div>
+        <div class="col gap-4">
+          <div class="body-sm strike">60 000 ₽</div>
+          <div class="price-big" style="color:#fff">29 900 ₽</div>
+        </div>
+        <div class="col gap-8">
+          <div class="body-sm" style="color:rgba(245,242,240,0.85)">✓ Все 8 модулей + предобучение</div>
+          <div class="body-sm" style="color:rgba(245,242,240,0.85)">✓ Модуль «На камеру»</div>
+          <div class="body-sm" style="color:rgba(245,242,240,0.85)">✓ Диагностика голоса от Риты</div>
+          <div class="body-sm" style="color:rgba(245,242,240,0.85)">✓ Живые Zoom-встречи</div>
+          <div class="body-sm" style="color:rgba(245,242,240,0.85)">✓ Доступ 6 месяцев</div>
+        </div>
+      </div>
+
+      <div class="tariff">
+        <div class="title-sm" style="color:rgba(245,242,240,0.7)">VIP</div>
+        <div class="col gap-4">
+          <div class="body-sm strike">120 000 ₽</div>
+          <div class="price-big">49 900 ₽</div>
+        </div>
+        <div class="col gap-8">
+          <div class="body-sm">✓ Всё из Премиум</div>
+          <div class="body-sm">✓ Максимум живых встреч</div>
+          <div class="body-sm">✓ Переговорные поединки</div>
+          <div class="body-sm">✓ Персональная обратная связь</div>
+          <div class="body-sm">✓ Доступ 12 месяцев</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide-num">52 / 90</div>
+</div>
+
+<!-- СЛАЙД 53 — РАССРОЧКА -->
+<div class="slide bg-mid" id="s53">
+  <div class="col left gap-28" style="max-width:800px">
+    <span class="block-label anim-1">Удобная оплата</span>
+    <div class="title-md anim-2">НЕ МОЖЕТЕ<br>ОПЛАТИТЬ ЦЕЛИКОМ?</div>
+    <div class="col gap-16 anim-3">
+      <div class="card"><div class="col gap-8"><div class="title-sm" style="color:var(--pink)">Беспроцентная рассрочка</div><div class="body-text">ЛАЙТ от 1 658 ₽/мес · ПРЕМИУМ от 2 492 ₽/мес · VIP от 4 158 ₽/мес</div></div></div>
+      <div class="card"><div class="col gap-8"><div class="title-sm" style="color:var(--pink)">Налоговый вычет 13%</div><div class="body-text">Есть лицензия на образовательную деятельность № Л035-01277-66/00668957. Часть стоимости можно вернуть.</div></div></div>
+    </div>
+  </div>
+  <div class="slide-num">53 / 90</div>
+</div>
+
+<!-- СЛАЙД 54 — «ДОРОГО» -->
+<div class="slide bg-dark" id="s54">
+  <div class="col left gap-24" style="max-width:820px">
+    <span class="block-label anim-1">Закрытие возражений</span>
+    <div class="title-md anim-2">«ЭТО ДОРОГО»</div>
+    <div class="col gap-16 anim-3">
+      <div class="body-lg">Посчитайте, сколько вы уже потеряли — из-за молчания.</div>
+      <div class="row gap-16" style="flex-wrap:wrap">
+        <div class="card" style="flex:1"><div class="body-text">Одно упущенное повышение</div></div>
+        <div class="card" style="flex:1"><div class="body-text">Один клиент, которого не убедили</div></div>
+        <div class="card" style="flex:1"><div class="body-text">Один год — тихо в углу</div></div>
+      </div>
+      <div class="card pink-card"><div class="body-lg">Курс стоит меньше, чем цена <span class="accent">ещё одного года молчания</span>.</div></div>
+    </div>
+  </div>
+  <div class="slide-num">54 / 90</div>
+</div>
+
+<!-- СЛАЙД 55 — «НЕ УСПЕЮ» -->
+<div class="slide bg-gradient-dark" id="s55">
+  <div class="col left gap-24" style="max-width:800px">
+    <div class="title-md anim-1">«У МЕНЯ<br>НЕТ ВРЕМЕНИ»</div>
+    <div class="col gap-16 anim-2">
+      <div class="card pink-card"><div class="title-sm" style="color:var(--pink)">15–20 минут в день.</div></div>
+      <div class="check-item anim-3"><div class="check-icon"></div><div class="body-text">Уроки в своём темпе</div></div>
+      <div class="check-item anim-3"><div class="check-icon"></div><div class="body-text">Доступ 3, 6 или 12 месяцев — в зависимости от тарифа</div></div>
+      <div class="check-item anim-3"><div class="check-icon"></div><div class="body-text">Начать можно сегодня</div></div>
+    </div>
+  </div>
+  <div class="slide-num">55 / 90</div>
+</div>
+
+<!-- СЛАЙД 56 — «УЖЕ ПРОБОВАЛА» -->
+<div class="slide bg-mid" id="s56">
+  <div class="col left gap-24" style="max-width:820px">
+    <div class="title-md anim-1">«Я УЖЕ ХОДИЛА<br>НА КУРСЫ — НЕ ПОМОГЛО»</div>
+    <div class="col gap-16 anim-2">
+      <div class="body-lg">Не помогло — потому что работали с техникой.</div>
+      <div class="card"><div class="col gap-8">
+        <div class="body-sm" style="color:var(--text-muted); font-style:italic">«Там не было глубокой психологической работы, поэтому результат оказался поверхностный»</div>
+      </div></div>
+      <div class="card pink-card"><div class="body-lg">Мы начинаем с корня: установки, страхи, самозванец.<br>Именно поэтому <span class="accent">результат остаётся</span>.</div></div>
+    </div>
+  </div>
+  <div class="slide-num">56 / 90</div>
+</div>
+
+<!-- СЛАЙД 57 — ОТЗЫВЫ -->
+<div class="slide bg-dark" id="s57">
+  <div class="col left gap-20" style="max-width:900px; width:100%">
+    <span class="block-label anim-1">Что говорят ученики</span>
+    <div class="title-md anim-2">ЧТО ГОВОРЯТ<br>УЧЕНИКИ</div>
+    <div class="row gap-16 anim-3" style="width:100%">
+      <div class="card" style="flex:1; background:rgba(255,255,255,0.04); border-style:dashed; min-height:120px; display:flex; align-items:center; justify-content:center"><div class="body-sm" style="color:var(--text-muted); text-align:center">Отзыв 1</div></div>
+      <div class="card" style="flex:1; background:rgba(255,255,255,0.04); border-style:dashed; min-height:120px; display:flex; align-items:center; justify-content:center"><div class="body-sm" style="color:var(--text-muted); text-align:center">Отзыв 2</div></div>
+      <div class="card" style="flex:1; background:rgba(255,255,255,0.04); border-style:dashed; min-height:120px; display:flex; align-items:center; justify-content:center"><div class="body-sm" style="color:var(--text-muted); text-align:center">Отзыв 3</div></div>
+    </div>
+    <div class="note-box">Заменить на реальные скрины/тексты отзывов</div>
+  </div>
+  <div class="slide-num">57 / 90</div>
+</div>
+
+<!-- СЛАЙД 58 — ТАЙМЕР -->
+<div class="slide bg-gradient-rose" id="s58">
+  <div class="col center gap-24" style="max-width:760px">
+    <div class="title-lg center anim-1">СЕЙЧАС ДОСТУПНА<br>КНОПКА ДЛЯ ОПЛАТЫ</div>
+    <div class="body-lg center anim-2" style="color:rgba(255,255,255,0.85)">Специальные цены действуют до <strong>25 апреля</strong></div>
+    <div class="card anim-3" style="background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.3); text-align:center; padding:20px 40px">
+      <div class="title-sm" style="color:#fff; font-size:clamp(28px,4vw,48px); font-family:'Unbounded'; letter-spacing:0.05em">10:00</div>
+      <div class="body-sm" style="color:rgba(255,255,255,0.6); margin-top:8px">Включаю таймер</div>
+    </div>
+    <div class="note-box">Пока оформляете — Рита отвечает на вопросы в чате</div>
+  </div>
+  <div class="slide-num">58 / 90</div>
+</div>
+
+<!-- СЛАЙД 59 — ПОЗДРАВЛЕНИЕ КУПИВШИХ -->
+<div class="slide bg-dark" id="s59">
+  <div class="col center gap-24" style="max-width:720px">
+    <div class="title-lg center anim-1">УЖЕ КУПИЛИ —<br><span class="accent">ПОЗДРАВЛЯЮ!</span></div>
+    <div class="body-lg center anim-2" style="color:rgba(245,242,240,0.75)">Доступ к предобучению открывается сразу.<br>Жду вас внутри.</div>
+    <div class="line-h anim-3" style="align-self:center"></div>
+  </div>
+  <div class="slide-num">59 / 90</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 7 — ПРАКТИКА 2 + КОНТЕНТ
+════════════════════════════════════════════════ -->
+
+<!-- СЛАЙД 60 — ПЕРЕХОД -->
+<div class="slide bg-gradient-dark" id="s60">
+  <div class="col center gap-24" style="max-width:720px">
+    <div class="title-md center anim-1" style="color:rgba(245,242,240,0.6)">А ТЕПЕРЬ</div>
+    <div class="body-lg center anim-2">Для тех, кто ещё думает — и для всех, кто хочет унести что-то ценное сегодня.</div>
+    <div class="card pink-card anim-3" style="text-align:center">
+      <div class="body-lg">Ещё одна практика.<br>И кое-что важное, о чём я редко говорю.</div>
+    </div>
+  </div>
+  <div class="slide-num">60 / 90</div>
+</div>
+
+<!-- СЛАЙД 61 — ИНСАЙТ -->
+<div class="slide bg-mid" id="s61">
+  <div class="col left gap-24" style="max-width:820px">
+    <span class="block-label anim-1">Объяснение</span>
+    <div class="title-md anim-2">ПОЧЕМУ ГОЛОС<br>МЕНЯЕТСЯ В СТРЕССЕ</div>
+    <div class="col gap-16 anim-3">
+      <div class="body-lg">Дома вы говорите нормально. На людях — зажимаетесь.</div>
+      <div class="card"><div class="body-lg">Это не потому что вы «такая».<br>Это потому что тело включает защиту: <span class="accent">«опасность — замри»</span>.</div></div>
+    </div>
+  </div>
+  <div class="slide-num">61 / 90</div>
+</div>
+
+<!-- СЛАЙД 62 — КАК ЭТО РАБОТАЕТ -->
+<div class="slide bg-dark" id="s62">
+  <div class="col left gap-24" style="max-width:820px">
+    <span class="block-label anim-1">Механизм</span>
+    <div class="title-md anim-2">ЧТО ПРОИСХОДИТ<br>В ЭТОТ МОМЕНТ</div>
+    <div class="col gap-14 anim-3">
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Мышцы шеи и плеч сжимаются — голос зажимается</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Дыхание становится грудным — звук теряет глубину</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Мозг переходит в режим «выжить» — слова исчезают</div></div>
+    </div>
+    <div class="card pink-card anim-4"><div class="body-lg"><span class="accent">Вы не теряете голос. Тело его прячет.</span></div></div>
+  </div>
+  <div class="slide-num">62 / 90</div>
+</div>
+
+<!-- СЛАЙД 63 — КЛЮЧЕВАЯ МЫСЛЬ -->
+<div class="slide bg-gradient-dark" id="s63">
+  <div class="col center gap-28" style="max-width:760px">
+    <div class="title-lg center anim-1">И САМОЕ<br>ВАЖНОЕ</div>
+    <div class="col gap-16 anim-2">
+      <div class="body-lg center">Этот механизм можно <span class="accent">перехватить</span>.</div>
+      <div class="body-lg center" style="color:rgba(245,242,240,0.6)">Не силой воли. Не «соберись и говори».</div>
+      <div class="card pink-card" style="text-align:center"><div class="body-lg">А через тело — дыхание, осанку, вибрацию голоса.</div></div>
+    </div>
+  </div>
+  <div class="slide-num">63 / 90</div>
+</div>
+
+<!-- СЛАЙД 64 — АНОНС ПРАКТИКИ 2 -->
+<div class="slide bg-dark" id="s64">
+  <div class="col center gap-24" style="max-width:700px">
+    <div class="tag anim-1" style="align-self:center"><div class="diamond small"></div>Практика №2</div>
+    <div class="title-lg center anim-2">БАРХАТ<br>РЕЧИ</div>
+    <div class="body-lg center anim-3" style="color:rgba(245,242,240,0.7)">Упражнение из первого модуля «Силы слова»</div>
+    <div class="card pink-card anim-4" style="text-align:center"><div class="body-sm">То, что вы сейчас почувствуете — это начало пути</div></div>
+  </div>
+  <div class="slide-num">64 / 90</div>
+</div>
+
+<!-- СЛАЙД 65 — УПРАЖНЕНИЕ -->
+<div class="slide bg-gradient-dark" id="s65">
+  <div class="col left gap-20" style="max-width:820px">
+    <div class="title-md anim-1">БАРХАТ РЕЧИ</div>
+    <div class="col gap-14 anim-2">
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Расслабьте челюсть — рот слегка приоткрыт</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Почувствуйте язык: он лежит свободно, не напряжён</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Вдох. На выдохе — «вввв», как мотор.<br><span class="body-sm" style="color:var(--text-muted)">Чувствуете вибрацию в губах?</span></div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Переходим на «ммм» — вибрация спускается в грудь.</div></div>
+    </div>
+    <div class="card pink-card anim-3"><div class="body-lg"><span class="accent">Это и есть ваш настоящий, незажатый голос.</span></div></div>
+  </div>
+  <div class="slide-num">65 / 90</div>
+</div>
+
+<!-- СЛАЙД 66 — ПОСЛЕ ПРАКТИКИ 2 -->
+<div class="slide bg-mid" id="s66">
+  <div class="col left gap-24" style="max-width:820px">
+    <div class="title-md anim-1">ВЫ ТОЛЬКО ЧТО<br>СДЕЛАЛИ ЧТО-ТО ВАЖНОЕ</div>
+    <div class="col gap-16 anim-2">
+      <div class="body-lg">Это упражнение — не просто разминка.</div>
+      <div class="body-lg">Это первый шаг к тому, чтобы голос перестал вас предавать.</div>
+      <div class="card pink-card"><div class="body-lg">Именно с него начинается обучение в <span class="accent">«Силе слова»</span>.</div></div>
+    </div>
+  </div>
+  <div class="slide-num">66 / 90</div>
+</div>
+
+<!-- СЛАЙД 67 — МОСТИК К ДАР РЕЧИ -->
+<div class="slide bg-dark" id="s67">
+  <div class="col center gap-28" style="max-width:760px">
+    <div class="title-md center anim-1">И ВОТ ЧТО<br>Я ХОЧУ ВАМ СКАЗАТЬ</div>
+    <div class="body-lg center anim-2" style="color:rgba(245,242,240,0.75)">Если «Сила слова» — это путь на 6 недель,<br>который вы пока не готовы начать…</div>
+    <div class="title-md center anim-3"><span class="accent">Есть первый шаг.</span></div>
+  </div>
+  <div class="slide-num">67 / 90</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 8 — ОФФЕР «ДАР РЕЧИ»
+════════════════════════════════════════════════ -->
+
+<!-- СЛАЙД 68 — ЧТО ТАКОЕ ДАР РЕЧИ -->
+<div class="slide bg-gradient-dark" id="s68">
+  <div class="col left gap-24" style="max-width:820px">
+    <div class="tag anim-1"><div class="diamond small"></div>Точка входа</div>
+    <div class="title-lg anim-2">«ДАР<br>РЕЧИ»</div>
+    <div class="body-lg anim-3">15-дневный практикум по голосу и речи.</div>
+    <div class="body-lg anim-3">Каждый день — новый урок до 20 минут. Уникальные упражнения.<br>Результат чувствуется <span class="accent">с первого дня</span>.</div>
+    <div class="card pink-card anim-4"><div class="body-sm">Это нулевая ступень «Силы слова»</div></div>
+  </div>
+  <div class="slide-num">68 / 90</div>
+</div>
+
+<!-- СЛАЙД 69 — ЧТО ВНУТРИ -->
+<div class="slide bg-mid" id="s69">
+  <div class="col left gap-24" style="max-width:820px">
+    <span class="block-label anim-1">Что вы получаете</span>
+    <div class="title-md anim-2">ЧТО ВНУТРИ</div>
+    <div class="col gap-14 anim-3">
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">15 видеоуроков</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">162 техники для голоса, речи и уверенности</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Большая книга-тренинг с вечным доступом</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-lg">Поддержка профессионала</div></div>
+    </div>
+  </div>
+  <div class="slide-num">69 / 90</div>
+</div>
+
+<!-- СЛАЙД 70 — ЦЕНА И ДЕДЛАЙН -->
+<div class="slide bg-dark" id="s70">
+  <div class="col center gap-24" style="max-width:720px">
+    <span class="block-label center anim-1">Специальная цена в честь дня рождения</span>
+    <div class="price-big anim-2" style="font-size:clamp(50px,9vw,110px); text-align:center">7 990 ₽</div>
+    <div class="card pink-card anim-3" style="text-align:center; padding:20px 40px">
+      <div class="body-lg">только до <strong>19 апреля</strong> включительно</div>
+      <div class="body-sm" style="margin-top:8px; color:var(--text-muted)">С 20 апреля цена вернётся к стандартной</div>
+    </div>
+  </div>
+  <div class="slide-num">70 / 90</div>
+</div>
+
+<!-- СЛАЙД 71 — ВАЖНО О СВЯЗИ -->
+<div class="slide bg-gradient-dark" id="s71">
+  <div class="col left gap-24" style="max-width:820px">
+    <span class="block-label anim-1">Важно знать</span>
+    <div class="title-md anim-2">ЕСЛИ ВЫ<br>ДУМАЕТЕ О «СИЛЕ СЛОВА»</div>
+    <div class="col gap-14 anim-3">
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">«Дар речи» — нулевая ступень курса. Стоимость засчитывается при переходе.</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Специальные цены на «Силу слова» действуют до <span class="accent">25 апреля</span>.</div></div>
+      <div class="check-item"><div class="check-icon"></div><div class="body-text">Если возьмёте «Дар речи» сейчас и захотите продолжить — успеете до 25-го.</div></div>
+    </div>
+    <div class="card pink-card anim-4"><div class="body-lg">С <span class="accent">26 апреля</span> специальных условий больше не будет.</div></div>
+  </div>
+  <div class="slide-num">71 / 90</div>
+</div>
+
+<!-- СЛАЙД 72 — ОБА ВАРИАНТА -->
+<div class="slide bg-mid" id="s72">
+  <div class="col left gap-24" style="max-width:860px; width:100%">
+    <span class="block-label anim-1">Ваши варианты</span>
+    <div class="title-md anim-2">ЕЩЁ РАЗ —<br>ОБА ВАРИАНТА</div>
+    <div class="col gap-12 anim-3">
+      <div class="card"><div class="row gap-16" style="justify-content:space-between; align-items:center"><div class="col gap-4"><div class="title-sm">«Дар речи»</div><div class="body-sm">Точка входа · нулевая ступень</div></div><div class="col gap-4" style="text-align:right"><div class="price-big" style="font-size:clamp(20px,2.5vw,32px)">7 990 ₽</div><div class="body-sm" style="color:var(--pink-light)">до 19 апреля</div></div></div></div>
+      <div class="card"><div class="row gap-16" style="justify-content:space-between; align-items:center"><div class="col gap-4"><div class="title-sm">«Сила слова» ЛАЙТ</div></div><div class="col gap-4" style="text-align:right"><div class="price-big" style="font-size:clamp(20px,2.5vw,32px)">19 900 ₽</div><div class="body-sm" style="color:var(--pink-light)">до 25 апреля</div></div></div></div>
+      <div class="card featured"><div class="row gap-16" style="justify-content:space-between; align-items:center"><div class="col gap-4"><div class="title-sm">«Сила слова» ПРЕМИУМ</div><div class="badge-popular">Популярный</div></div><div class="col gap-4" style="text-align:right"><div class="price-big" style="font-size:clamp(20px,2.5vw,32px); color:#fff">29 900 ₽</div><div class="body-sm" style="color:rgba(245,242,240,0.6)">до 25 апреля</div></div></div></div>
+      <div class="card"><div class="row gap-16" style="justify-content:space-between; align-items:center"><div class="col gap-4"><div class="title-sm">«Сила слова» VIP</div></div><div class="col gap-4" style="text-align:right"><div class="price-big" style="font-size:clamp(20px,2.5vw,32px)">49 900 ₽</div><div class="body-sm" style="color:var(--pink-light)">до 25 апреля</div></div></div></div>
+    </div>
+  </div>
+  <div class="slide-num">72 / 90</div>
+</div>
+
+<!-- СЛАЙД 73 — КНОПКА -->
+<div class="slide bg-gradient-rose" id="s73">
+  <div class="col center gap-24" style="max-width:720px">
+    <div class="title-lg center anim-1">НАЖИМАЙТЕ<br>НА КНОПКУ</div>
+    <div class="col gap-12 anim-2" style="width:100%; max-width:400px">
+      <div class="pill solid" style="text-align:center; padding:18px 32px; font-size:clamp(14px,1.5vw,18px)">«Дар речи» — 7 990 ₽</div>
+      <div class="pill outline" style="text-align:center; padding:18px 32px; font-size:clamp(14px,1.5vw,18px); border-color:rgba(255,255,255,0.4); color:rgba(255,255,255,0.85)">«Сила слова» → выбрать тариф</div>
+    </div>
+    <div class="note-box">Рита: отвечает на вопросы в чате</div>
+  </div>
+  <div class="slide-num">73 / 90</div>
+</div>
+
+<!-- СЛАЙД 74 — ПОЗДРАВЛЕНИЕ -->
+<div class="slide bg-dark" id="s74">
+  <div class="col center gap-24" style="max-width:720px">
+    <div class="title-lg center anim-1">ПОЗДРАВЛЯЮ<br>ВСЕХ, КТО<br>ПРИНЯЛ РЕШЕНИЕ</div>
+    <div class="body-lg center anim-2" style="color:rgba(245,242,240,0.7)">Любое — «Дар речи» или «Сила слова».<br>Первый шаг сделан. <span class="accent">Это самое важное.</span></div>
+  </div>
+  <div class="slide-num">74 / 90</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 9 — Q&A + ФИНАЛ
+════════════════════════════════════════════════ -->
+
+<!-- СЛАЙД 75 — Q&A -->
+<div class="slide bg-gradient-dark" id="s75">
+  <div class="col center gap-28" style="max-width:720px">
+    <span class="block-label center anim-1">Последняя часть</span>
+    <div class="title-lg center anim-2">ОТВЕЧАЮ<br>НА ВАШИ ВОПРОСЫ</div>
+    <div class="chat-prompt anim-3"><span>💬</span>Пишите в чат — всё, что хотели спросить</div>
+    <div class="note-box">Рита: живые ответы, без скрипта</div>
+  </div>
+  <div class="slide-num">75 / 90</div>
+</div>
+
+<!-- СЛАЙД 76 — НАПОМИНАНИЕ ДЕДЛАЙН -->
+<div class="slide bg-mid" id="s76">
+  <div class="col left gap-24" style="max-width:820px">
+    <span class="block-label anim-1">Напоминаю</span>
+    <div class="title-md anim-2">НАПОМИНАЮ</div>
+    <div class="col gap-14 anim-3">
+      <div class="card pink-card"><div class="row gap-16" style="justify-content:space-between"><div class="body-lg">«Дар речи»</div><div class="col gap-4" style="text-align:right"><div class="price-big" style="font-size:24px">7 990 ₽</div><div class="body-sm" style="color:var(--pink-light)">до 19 апреля</div></div></div></div>
+      <div class="card"><div class="row gap-16" style="justify-content:space-between"><div class="body-lg">«Сила слова» (все тарифы)</div><div class="body-sm" style="color:var(--pink-light); white-space:nowrap">до 25 апреля</div></div></div>
+    </div>
+    <div class="body-sm anim-4" style="color:rgba(245,242,240,0.45); font-style:italic">После этих дат специальные условия закрываются</div>
+  </div>
+  <div class="slide-num">76 / 90</div>
+</div>
+
+<!-- СЛАЙД 77 — БОНУС -->
+<div class="slide bg-dark" id="s77">
+  <div class="col center gap-24" style="max-width:760px">
+    <div class="tag anim-1" style="align-self:center"><div class="diamond small"></div>Как и обещала</div>
+    <div class="title-lg center anim-2">ЗАПИСЬ<br>УПРАЖНЕНИЙ</div>
+    <div class="body-lg center anim-3" style="color:rgba(245,242,240,0.75)">Для тех, кто был с нами до конца —<br>запись сегодняшних практик.</div>
+    <div class="col gap-10 anim-4" style="align-self:stretch">
+      <div class="pill" style="text-align:center">Практика 1: Снятие зажима с тела и голоса</div>
+      <div class="pill" style="text-align:center">Практика 2: Бархат речи</div>
+    </div>
+    <div class="body-text anim-5" style="color:var(--text-muted)">Отправляем в бот / на почту прямо сейчас</div>
+  </div>
+  <div class="slide-num">77 / 90</div>
+</div>
+
+<!-- СЛАЙДЫ 78-89 — ЗАГЛУШКИ -->
+<!-- (генерируем 12 пустых слайдов для докупленного блока отзывов) -->
+<div class="slide bg-gradient-dark" id="s78"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 78 — резерв</span><div class="body-sm" style="color:var(--text-muted)">Можно использовать для дополнительных отзывов</div></div><div class="slide-num">78 / 90</div></div>
+
+<div class="slide bg-dark" id="s79"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 79 — резерв</span><div class="body-sm" style="color:var(--text-muted)">Можно использовать для дополнительных отзывов</div></div><div class="slide-num">79 / 90</div></div>
+
+<div class="slide bg-mid" id="s80"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 80 — резерв</span></div><div class="slide-num">80 / 90</div></div>
+<div class="slide bg-gradient-dark" id="s81"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 81 — резерв</span></div><div class="slide-num">81 / 90</div></div>
+<div class="slide bg-dark" id="s82"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 82 — резерв</span></div><div class="slide-num">82 / 90</div></div>
+<div class="slide bg-mid" id="s83"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 83 — резерв</span></div><div class="slide-num">83 / 90</div></div>
+<div class="slide bg-gradient-dark" id="s84"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 84 — резерв</span></div><div class="slide-num">84 / 90</div></div>
+<div class="slide bg-dark" id="s85"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 85 — резерв</span></div><div class="slide-num">85 / 90</div></div>
+<div class="slide bg-mid" id="s86"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 86 — резерв</span></div><div class="slide-num">86 / 90</div></div>
+<div class="slide bg-gradient-dark" id="s87"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 87 — резерв</span></div><div class="slide-num">87 / 90</div></div>
+<div class="slide bg-dark" id="s88"><div class="col center gap-16" style="max-width:700px"><span class="block-label center">Слайд 88 — резерв</span></div><div class="slide-num">88 / 90</div></div>
+
+<!-- СЛАЙД 89 — ФИНАЛ -->
+<div class="slide bg-gradient-rose" id="s89">
+  <div class="col center gap-28" style="max-width:760px">
+    <div class="title-xl center anim-1">СПАСИБО,<br>ЧТО БЫЛИ<br>ЗДЕСЬ</div>
+    <div class="body-lg center anim-2" style="color:rgba(255,255,255,0.85)">Ваш голос заслуживает того, чтобы его услышали.</div>
+    <div class="body-lg center anim-3" style="color:rgba(255,255,255,0.7)">До встречи — в курсе или на следующем эфире.<br>С любовью, Рита 🤍</div>
+  </div>
+  <div class="slide-num">89 / 90</div>
+</div>
+
+<!-- СЛАЙД 90 — ФОНОВЫЙ ЗАГЛУШКА -->
+<div class="slide bg-dark" id="s90">
+  <div class="col center gap-20" style="max-width:860px; width:100%">
+    <span class="block-label center anim-1">Ваши варианты</span>
+    <div class="row gap-20 anim-2" style="width:100%; flex-wrap:wrap">
+      <div class="card" style="flex:1; min-width:160px; text-align:center"><div class="col gap-8 center"><div class="body-sm" style="color:var(--text-muted)">«Дар речи»</div><div class="price-big" style="font-size:24px">7 990 ₽</div><div class="body-sm" style="color:var(--pink-light)">до 19 апр</div></div></div>
+      <div class="card" style="flex:1; min-width:160px; text-align:center"><div class="col gap-8 center"><div class="body-sm" style="color:var(--text-muted)">ЛАЙТ</div><div class="price-big" style="font-size:24px">19 900 ₽</div><div class="body-sm" style="color:var(--pink-light)">до 25 апр</div></div></div>
+      <div class="card featured" style="flex:1; min-width:160px; text-align:center"><div class="col gap-8 center"><div class="badge-popular">Популярный</div><div class="body-sm">ПРЕМИУМ</div><div class="price-big" style="font-size:24px; color:#fff">29 900 ₽</div><div class="body-sm" style="color:rgba(245,242,240,0.6)">до 25 апр</div></div></div>
+      <div class="card" style="flex:1; min-width:160px; text-align:center"><div class="col gap-8 center"><div class="body-sm" style="color:var(--text-muted)">VIP</div><div class="price-big" style="font-size:24px">49 900 ₽</div><div class="body-sm" style="color:var(--pink-light)">до 25 апр</div></div></div>
+    </div>
+  </div>
+  <div class="slide-num">90 / 90</div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592;</button>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="nav-info" id="navInfo">1 / 90</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill2"></div></div>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">&#8594;</button>
+</nav>
+
+<script>
+  const TOTAL = 90;
+  let current = 1;
+
+  function getSlide(n) {
+    return document.getElementById('s' + n);
+  }
+
+  function navigate(dir) {
+    const next = current + dir;
+    if (next < 1 || next > TOTAL) return;
+    getSlide(current).classList.remove('active');
+    current = next;
+    getSlide(current).classList.add('active');
+    update();
+  }
+
+  function update() {
+    document.getElementById('navInfo').textContent = current + ' / ' + TOTAL;
+    const pct = ((current - 1) / (TOTAL - 1) * 100) + '%';
+    document.getElementById('progressFill').style.width = pct;
+    document.getElementById('progressFill2').style.width = pct;
+    // update all slide-num displays
+    document.querySelectorAll('.slide-num').forEach((el, i) => {
+      el.textContent = (i + 1) + ' / ' + TOTAL;
+    });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); navigate(-1); }
+  });
+
+  // Swipe support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+  });
+
+  update();
+</script>
+</body>
+</html>
